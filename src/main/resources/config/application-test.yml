@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: multlingual-client
+  output:
+    ansi:
+      enabled:  ALWAYS

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+  
+<configuration scan="true" scanPeriod="60 seconds">
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <withJansi>true</withJansi>
+        <encoder>
+            <pattern>%red(%d{yyyy-MM-dd HH:mm:ss})  %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+  
+    <logger name="org.springframework" level="WARN"
+        additivity="false">  
+        <appender-ref ref="stdout" />
+    </logger>
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="WARN"
+            additivity="false">
+        <appender-ref ref="stdout" />
+    </logger>
+    <logger name="org.apache.curator" level="WARN"
+            additivity="false">
+        <appender-ref ref="stdout" />
+    </logger>
+
+    <!-- name包必须能够扫描到所以类，包括启动类 -->  
+    <logger name="com.yonyou" level="info" additivity="false">
+        <appender-ref ref="stdout" />  
+    </logger>
+
+</configuration>   

@@ -1,0 +1,10 @@
+**/build/
+**/bin/
+**/logs/
+**/.settings/
+**/.gradle/
+**/.idea/
+**/out/
+**/node_modules/
+**/dist/
+*.iml
