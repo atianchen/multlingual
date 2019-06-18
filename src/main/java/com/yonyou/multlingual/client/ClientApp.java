@@ -41,7 +41,7 @@ public class ClientApp implements CommandLineRunner {
         Options options = new Options();
         options.addOption("i", true, "input excel file");
         options.addOption("o", true, "spec output directory");
-        options.addOption("t", false, "spec template file");
+        options.addOption("t", true, "spec template file");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse( options, args);
@@ -59,9 +59,7 @@ public class ClientApp implements CommandLineRunner {
             logger.info("Please Spec Ouput Directory for js");
             System.exit(0);
         }
-        File inputFile = new File(input);
-        if (!inputFile.exists())
-            inputFile = new File(currentPath,input);
+        File inputFile =  ((input.indexOf("/")>=0 || input.indexOf("\\")>=0))?new File(input): new File(currentPath,input);
         if (!inputFile.exists())
         {
             logger.info("Input File Not Exists");
@@ -70,18 +68,19 @@ public class ClientApp implements CommandLineRunner {
         File tplFile = null;
         if (StringUtils.isNotBlank(tpl))
         {
-            tplFile = new File(tpl);
-            if (!tplFile.exists())
-                tplFile = new File(currentPath,tpl);
+            tplFile = ((tpl.indexOf("/")>=0 || tpl.indexOf("\\")>=0))?new File(tpl): new File(currentPath,tpl);
             if (!tplFile.exists())
             {
                 logger.info("Template File Not Exists");
                 System.exit(0);
             }
         }
-        File outputPath = new File(output);
-        if (!outputPath.exists())
-            outputPath = new File(currentPath+"\\"+outputPath);
+        logger.info("---------------------------------");
+        if (tplFile!=null)
+            logger.info(tplFile.getPath());
+        else
+            logger.info("not foudn template file");
+        File outputPath = ((output.indexOf("/")>=0 || output.indexOf("\\")>=0))?new File(output): new File(currentPath+"\\"+output);
         if (!outputPath.exists() || !outputPath.isDirectory())
         {
             logger.info("Output Path Not Exists or Not Directory:"+outputPath.getPath());
