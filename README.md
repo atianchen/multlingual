@@ -6,6 +6,8 @@
  - -i 必须，输入的EXCEL文件，必须为2003格式 比如-i d:\lang.xls
  - -o 必须，指定JS文件输出目录 比如 -o d:\js
  - -t 非必须，指定模版文件	-t d:\lang.html
+ - -suffix 非必须 指定输出文件的后缀，比如js properties等，示例 -suffix js :输出文件后缀为js
+ - -suffix 非必须 指定输出文件的后缀，比如为了匹配spring后台多语，文件一般以messages_打头，示例 -prefix messages_ :输出文件后缀为messages_en
 
 如果没有指定文件，则程序会调用内部默认模版进行JS输出  
 模版采用freemarker语法  
