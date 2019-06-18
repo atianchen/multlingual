@@ -28,7 +28,7 @@ public class DefaultLangConvertor implements  LangConvertor{
     private TemplateLoader templateLoader;
 
     @Override
-    public void convert(String input, String tpl, String output) {
+    public void convert(ConvertConfig cfg,String input, String tpl, String output) {
         File outputDirectory = new File(output);
         if (!outputDirectory.exists() || !outputDirectory.isDirectory())
             throw new ConvertException("output path is not directory or not exist");
@@ -73,7 +73,7 @@ public class DefaultLangConvertor implements  LangConvertor{
             for (LangCell lang : depot.keySet())
             {
                 data.put("data",depot.get(lang));
-                outputJsFile(this.getTemplateLoader().render(data,tpl),output,lang.getCode());
+                outputJsFile(cfg,this.getTemplateLoader().render(data,tpl),output,lang.getCode());
             }
             logger.info("Convert Successful");
         }
@@ -90,9 +90,9 @@ public class DefaultLangConvertor implements  LangConvertor{
         }
     }
 
-    private void outputJsFile(String content,String path,String fileName) throws IOException
+    private void outputJsFile(ConvertConfig cfg,String content,String path,String fileName) throws IOException
     {
-        File file = new File(path,fileName+".js");
+        File file = new File(path,cfg.getPrefix()+fileName+"."+cfg.getSuffix());
         if (file.exists())
             file.delete();
         FileUtils.writeStringToFile(file,content,"utf-8");

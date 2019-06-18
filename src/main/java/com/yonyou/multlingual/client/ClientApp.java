@@ -1,5 +1,6 @@
 package com.yonyou.multlingual.client;
 
+import com.yonyou.multlingual.client.core.ConvertConfig;
 import com.yonyou.multlingual.client.core.LangConvertor;
 import com.yonyou.multlingual.client.template.ExTemplateLoader;
 import org.apache.commons.cli.CommandLine;
@@ -42,6 +43,8 @@ public class ClientApp implements CommandLineRunner {
         options.addOption("i", true, "input excel file");
         options.addOption("o", true, "spec output directory");
         options.addOption("t", true, "spec template file");
+        options.addOption("suffix", true, "spec output file suffiex");
+        options.addOption("prefix", true, "spec output file prefix");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse( options, args);
@@ -75,17 +78,19 @@ public class ClientApp implements CommandLineRunner {
                 System.exit(0);
             }
         }
-        logger.info("---------------------------------");
-        if (tplFile!=null)
-            logger.info(tplFile.getPath());
-        else
-            logger.info("not foudn template file");
         File outputPath = ((output.indexOf("/")>=0 || output.indexOf("\\")>=0))?new File(output): new File(currentPath+"\\"+output);
         if (!outputPath.exists() || !outputPath.isDirectory())
         {
             logger.info("Output Path Not Exists or Not Directory:"+outputPath.getPath());
             System.exit(0);
         }
-        convertor.convert(inputFile.getPath(),(tplFile!=null)?tplFile.getPath():"default.ftl",outputPath.getPath());
+        ConvertConfig config = new ConvertConfig();
+        String suffix = cmd.getOptionValue("suffix");
+        String prefix = cmd.getOptionValue("prefix");
+        if (StringUtils.isNotBlank(suffix))
+            config.setSuffix(suffix);
+        if (StringUtils.isNotBlank(prefix))
+            config.setPrefix(prefix);
+        convertor.convert(config,inputFile.getPath(),(tplFile!=null)?tplFile.getPath():"default.ftl",outputPath.getPath());
     }
 }
