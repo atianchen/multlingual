@@ -3,6 +3,7 @@ package com.yonyou.multlingual.client.core;
 import com.yonyou.multlingual.client.core.err.ConvertException;
 import com.yonyou.multlingual.client.template.FreemarkerTemplateLoader;
 import com.yonyou.multlingual.client.template.TemplateLoader;
+import com.yonyou.multlingual.client.utils.StringConvertUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -59,7 +60,7 @@ public class DefaultLangConvertor implements  LangConvertor{
                 indexName = this.getStringCellValue(row.getCell(0));
                 if (StringUtils.isNotBlank(indexName)) {
                     for (LangCell lang : depot.keySet()) {
-                        val = this.getStringCellValue(row.getCell(lang.getSeq()));
+                        val = StringConvertUtil.chinese2Unicode(this.getStringCellValue(row.getCell(lang.getSeq())));
                         depot.get(lang).put(indexName, (val != null && StringUtils.isNotBlank(val)) ? val : StringUtils.EMPTY);
                     }
                 }
